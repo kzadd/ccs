@@ -2,8 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@ang
 import { Router } from '@angular/router'
 import {
   heroEyeSolid as detailIcon,
-  heroPencilSquareSolid as editIcon,
-  heroTrashSolid as deleteIcon
+  heroPencilSquareSolid as editIcon
 } from '@ng-icons/heroicons/solid'
 
 import { Country } from '@app/features/country/domain/country.entity'
@@ -47,12 +46,6 @@ export class CountryTableContainerComponent implements OnInit {
         icon: editIcon,
         label: 'Editar',
         onAction: row => this._handleEditC(row)
-      },
-      {
-        color: 'error',
-        icon: deleteIcon,
-        label: 'Eliminar',
-        onAction: row => this._handleDeleteCountry(row)
       }
     ])
 
