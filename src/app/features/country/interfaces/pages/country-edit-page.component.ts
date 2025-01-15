@@ -11,8 +11,8 @@ import { CountryHeadingContainerComponent } from '../containers/country-heading-
   imports: [CountryFormContainerComponent, CountryHeadingContainerComponent],
   selector: 'app-country-edit-page',
   template: `
-    <app-country-heading-container pageType="edit" />
-    <app-country-form-container pageType="edit" />
+    <app-country-heading-container mode="edit" />
+    <app-country-form-container mode="edit" />
   `
 })
 export class CountryEditPageComponent {}

@@ -11,8 +11,8 @@ import { CountryHeadingContainerComponent } from '../containers/country-heading-
   imports: [CountryFormContainerComponent, CountryHeadingContainerComponent],
   selector: 'app-country-new-page',
   template: `
-    <app-country-heading-container pageType="new" />
-    <app-country-form-container pageType="new" />
+    <app-country-heading-container mode="new" />
+    <app-country-form-container mode="new" />
   `
 })
 export class CountryNewPageComponent {}

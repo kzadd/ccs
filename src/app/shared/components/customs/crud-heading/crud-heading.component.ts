@@ -19,18 +19,18 @@ import {
 })
 export class CrudHeadingComponent<T extends string> implements OnInit {
   headingConfig = input.required<HeadingConfig<T>>()
-  pageType = input.required<T>()
+  mode = input.required<T>()
 
   activeHeadingConfig!: HeadingConfigItem
 
   ngOnInit(): void {
     const headingConfig = this.headingConfig()
-    const pageType = this.pageType()
+    const mode = this.mode()
 
     if (!headingConfig) {
-      throw new Error(`Configuration for pageType "${this.pageType()}" not found.`)
+      throw new Error(`Configuration for mode "${this.mode()}" not found.`)
     }
 
-    this.activeHeadingConfig = headingConfig[pageType]
+    this.activeHeadingConfig = headingConfig[mode]
   }
 }

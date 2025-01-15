@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angu
 import { Router } from '@angular/router'
 import { heroPlusSolid as newIcon } from '@ng-icons/heroicons/solid'
 
-import { CountryPageType } from '@app/features/country/domain/country.entity'
+import { CountryViewMode } from '@app/features/country/domain/country.entity'
 import { CrudHeadingComponent } from '@app/shared/components'
 import { FULL_ROUTE_PATHS } from '@app/shared/constants/app.constant'
 import { HeadingConfig } from '@app/shared/types/components/customs/crud-heading.types'
@@ -16,16 +16,16 @@ import { HeadingConfig } from '@app/shared/types/components/customs/crud-heading
   selector: 'app-country-heading-container',
   template: `
     <div class="country-heading">
-      <app-crud-heading [headingConfig]="headingConfig()" [pageType]="pageType()" />
+      <app-crud-heading [headingConfig]="headingConfig()" [mode]="mode()" />
     </div>
   `
 })
 export class CountryHeadingContainerComponent {
   private _router = inject(Router)
 
-  pageType = input.required<CountryPageType>()
+  mode = input.required<CountryViewMode>()
 
-  headingConfig = signal<HeadingConfig<CountryPageType>>({
+  headingConfig = signal<HeadingConfig<CountryViewMode>>({
     edit: {
       breadcrumbs: [
         { label: 'Panel', path: FULL_ROUTE_PATHS.dashboard.root },

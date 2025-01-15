@@ -10,8 +10,8 @@ import {
   TableAction,
   TableColumn,
   TableData,
+  TableDataKey,
   TableDataValue,
-  TableKey,
   TableSortOrder
 } from '@app/shared/types/components/basics/table.types'
 
@@ -34,7 +34,7 @@ export class TableComponent<T> {
 
   data = model<TableData<T>[]>([])
 
-  sortBy = signal<TableKey<T> | null>(null)
+  sortBy = signal<TableDataKey<T> | null>(null)
   sortOrder = signal<TableSortOrder>('none')
 
   private _compareValues(a: TableDataValue<T>, b: TableDataValue<T>): number {
@@ -48,7 +48,7 @@ export class TableComponent<T> {
     return valueA < valueB ? -1 : 1
   }
 
-  private _getSortedData(key: TableKey<T>): TableData<T>[] {
+  private _getSortedData(key: TableDataKey<T>): TableData<T>[] {
     const data = this.data()
     const sortOrder = this.sortOrder()
 
@@ -59,7 +59,7 @@ export class TableComponent<T> {
     })
   }
 
-  private _updateSortOrder(key: TableKey<T>): void {
+  private _updateSortOrder(key: TableDataKey<T>): void {
     const sortBy = this.sortBy()
     const isSameColumn = sortBy === key
 

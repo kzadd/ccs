@@ -9,7 +9,7 @@ export interface TableAction<T> {
 
 export interface TableColumn<T> {
   sortable?: boolean
-  key: TableKey<T>
+  key: TableDataKey<T>
   label: string
   width?: string
 }
@@ -18,6 +18,6 @@ export type TableData<T> = {
   [Property in keyof T]: T[Property]
 }
 
-export type TableDataValue<T> = TableData<T>[TableKey<T>]
-export type TableKey<T> = Extract<keyof T, string>
+export type TableDataKey<T> = Extract<keyof T, string>
+export type TableDataValue<T> = TableData<T>[TableDataKey<T>]
 export type TableSortOrder = 'asc' | 'desc' | 'none'

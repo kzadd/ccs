@@ -11,7 +11,7 @@ import { CountryHeadingContainerComponent } from '../containers/country-heading-
   imports: [CountryDetailContainerComponent, CountryHeadingContainerComponent],
   selector: 'app-country-show-page',
   template: `
-    <app-country-heading-container pageType="show" />
+    <app-country-heading-container mode="show" />
     <app-country-detail-container />
   `
 })

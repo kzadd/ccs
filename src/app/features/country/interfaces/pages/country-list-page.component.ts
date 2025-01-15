@@ -11,7 +11,7 @@ import { CountryTableContainerComponent } from '../containers/country-table-cont
   imports: [CountryHeadingContainerComponent, CountryTableContainerComponent],
   selector: 'app-country-list-page',
   template: `
-    <app-country-heading-container pageType="list" />
+    <app-country-heading-container mode="list" />
     <app-country-table-container />
   `
 })
