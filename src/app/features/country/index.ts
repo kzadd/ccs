@@ -1,0 +1,5 @@
+export { CountryEditPageComponent as CountryEditPage } from './interfaces/pages/country-edit-page.component'
+export { CountryListPageComponent as CountryListPage } from './interfaces/pages/country-list-page.component'
+export { CountryNewPageComponent as CountryNewPage } from './interfaces/pages/country-new-page.component'
+export { countryRoutes } from './country.routes'
+export { CountryShowPageComponent as CountryShowPage } from './interfaces/pages/country-show-page.component'
