@@ -1,0 +1,15 @@
+<div class="crud-detail">
+  <div class="crud-detail__content">
+    @for (item of detailConfig(); track $index) {
+      <div class="crud-detail__item">
+        <label for="id" class="crud-detail__label">
+          {{ item.label }}
+        </label>
+
+        <span id="id" class="crud-detail__value">
+          {{ item.value }}
+        </span>
+      </div>
+    }
+  </div>
+</div>
