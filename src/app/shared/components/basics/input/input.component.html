@@ -7,6 +7,7 @@
 
   <div class="input__wrapper">
     <input
+      (blur)="onTouched()"
       (input)="onInputChange($event)"
       [class]="{
         'input__field--disabled': disabled(),

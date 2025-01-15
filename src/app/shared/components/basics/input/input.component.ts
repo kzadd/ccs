@@ -27,23 +27,24 @@ export class InputComponent implements ControlValueAccessor {
   disabled = signal<boolean>(false)
   value = signal<string>('')
 
-  private _onChange: (value: string) => void = () => {}
-  private _onTouched: () => void = () => {}
+  onChange: (value: string) => void = () => {}
 
   onInputChange(event: Event) {
     const inputElement = event.target as HTMLInputElement
 
     this.value.set(inputElement.value)
-    this._onChange(inputElement.value)
-    this._onTouched()
+    this.onChange(inputElement.value)
+    this.onTouched()
   }
 
+  onTouched: () => void = () => {}
+
   registerOnChange(fn: (value: string) => void): void {
-    this._onChange = fn
+    this.onChange = fn
   }
 
   registerOnTouched(fn: () => void): void {
-    this._onTouched = fn
+    this.onTouched = fn
   }
 
   setDisabledState(isDisabled: boolean): void {
