@@ -51,7 +51,7 @@ $button-colors: (
   } @else if $variant == 'outlined' {
     background-color: transparent;
     border: 0.0625rem solid $color-main;
-    color: $color-main;
+    color: $color-dark;
 
     &:hover:not(.button--disabled) {
       background-color: rgba($color-light, 0.2);

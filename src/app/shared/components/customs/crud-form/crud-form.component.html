@@ -1,0 +1,29 @@
+<div class="crud-form">
+  <div class="crud-form__container">
+    <form [formGroup]="form" class="crud-form__content">
+      @for (field of activeFormConfig.fields; track $index) {
+        @if (field.type === 'input') {
+          <app-input
+            [error]="getErrorMessage(field.name)"
+            [formControlName]="field.name"
+            [id]="field.name"
+            [label]="field.label"
+            [name]="field.name"
+            [placeholder]="field.placeholder ?? ''"
+          />
+        }
+      }
+    </form>
+
+    <div class="crud-form__actions">
+      <app-button (click)="handleCancel()" variant="outlined">
+        {{ activeFormConfig.cancelLabel }}
+      </app-button>
+
+      <app-button (click)="handleSubmit()">
+        <ng-icon name="saveIcon" />
+        {{ activeFormConfig.submitLabel }}
+      </app-button>
+    </div>
+  </div>
+</div>

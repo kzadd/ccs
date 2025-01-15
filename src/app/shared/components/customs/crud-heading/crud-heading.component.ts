@@ -28,7 +28,7 @@ export class CrudHeadingComponent<T extends string> implements OnInit {
     const mode = this.mode()
 
     if (!headingConfig) {
-      throw new Error(`Configuration for mode "${this.mode()}" not found.`)
+      throw new Error(`Configuration for mode "${mode}" not found.`)
     }
 
     this.activeHeadingConfig = headingConfig[mode]

@@ -59,20 +59,18 @@ export class LoginAuthContainerComponent implements OnInit {
   }
 
   handleSignIn(): void {
-    this.form.markAllAsTouched()
-
     const { email, password } = this.form.getRawValue()
 
-    if (
-      email === DEFAULT_CREDENTIALS.email &&
-      password === DEFAULT_CREDENTIALS.password &&
-      this.form.valid
-    ) {
+    const isDefaultCredentials =
+      email === DEFAULT_CREDENTIALS.email && password === DEFAULT_CREDENTIALS.password
+
+    if (isDefaultCredentials && this.form.valid) {
       putCookie(ACCESS_TOKEN_KEY, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9')
       this._router.navigate([ROUTE_PATHS.dashboard])
       this.form.reset()
     } else {
       this.errorMessage.set(true)
+      this.form.markAllAsTouched()
     }
   }
 
