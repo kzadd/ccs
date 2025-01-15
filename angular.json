@@ -1,0 +1,101 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": { "analytics": false, "schematicCollections": ["@angular-eslint/schematics"] },
+  "newProjectRoot": "projects",
+  "projects": {
+    "kaufmann-mantenedores": {
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "configurations": {
+            "development": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ],
+              "extractLicenses": false,
+              "namedChunks": true,
+              "optimization": false,
+              "outputHashing": "none",
+              "sourceMap": true
+            },
+            "local": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
+                }
+              ],
+              "extractLicenses": false,
+              "namedChunks": true,
+              "optimization": false,
+              "outputHashing": "none",
+              "sourceMap": true
+            },
+            "production": {
+              "budgets": [{ "maximumError": "5MB", "maximumWarning": "2MB", "type": "initial" }],
+              "extractLicenses": true,
+              "namedChunks": true,
+              "optimization": false,
+              "outputHashing": "none",
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production",
+          "options": {
+            "assets": [{ "glob": "**/*", "input": "public" }],
+            "browser": "src/main.ts",
+            "index": "src/index.html",
+            "inlineStyleLanguage": "scss",
+            "outputPath": "dist/kaufmann-mantenedores",
+            "polyfills": ["zone.js"],
+            "scripts": [],
+            "stylePreprocessorOptions": { "includePaths": ["src/app"] },
+            "styles": ["src/app/shared/styles/globals.scss"],
+            "tsConfig": "tsconfig.app.json"
+          }
+        },
+        "extract-i18n": { "builder": "@angular-devkit/build-angular:extract-i18n" },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": { "lintFilePatterns": ["src/**/*.html", "src/**/*.scss", "src/**/*.ts"] }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "development": { "buildTarget": "kaufmann-mantenedores:build:development" },
+            "local": { "buildTarget": "kaufmann-mantenedores:build:local" },
+            "production": { "buildTarget": "kaufmann-mantenedores:build:production" }
+          },
+          "defaultConfiguration": "local"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "assets": [{ "glob": "**/*", "input": "public" }],
+            "inlineStyleLanguage": "scss",
+            "polyfills": ["zone.js", "zone.js/testing"],
+            "scripts": [],
+            "stylePreprocessorOptions": { "includePaths": ["src/app"] },
+            "styles": ["src/app/shared/styles/globals.scss"],
+            "tsConfig": "tsconfig.spec.json"
+          }
+        }
+      },
+      "prefix": "app",
+      "projectType": "application",
+      "root": "",
+      "schematics": {
+        "@schematics/angular:component": {
+          "changeDetection": "OnPush",
+          "skipTests": true,
+          "style": "scss"
+        }
+      },
+      "sourceRoot": "src"
+    }
+  },
+  "version": 1
+}
