@@ -1,0 +1,34 @@
+<div class="input">
+  @if (label()) {
+    <label [for]="id()" class="input__label">
+      {{ label() }}
+    </label>
+  }
+
+  <div class="input__wrapper">
+    <input
+      (input)="onInputChange($event)"
+      [class]="{
+        'input__field--disabled': disabled(),
+        'input__field--error': error(),
+        input__field: true
+      }"
+      [disabled]="disabled()"
+      [id]="id()"
+      [name]="name()"
+      [placeholder]="placeholder()"
+      [type]="type()"
+      [value]="value()"
+    />
+
+    <span class="input__suffix">
+      <ng-content [select]="suffix" />
+    </span>
+  </div>
+
+  @if (error()) {
+    <div class="input__error">
+      {{ error() }}
+    </div>
+  }
+</div>

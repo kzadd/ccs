@@ -1,0 +1,19 @@
+<button
+  [class]="{
+    'button--contained': variant() === 'contained',
+    'button--default': color() === 'default',
+    'button--disabled': disabled(),
+    'button--error': color() === 'error',
+    'button--full-width': fullWidth(),
+    'button--outlined': variant() === 'outlined',
+    'button--primary': color() === 'primary',
+    'button--secondary': color() === 'secondary',
+    'button--success': color() === 'success',
+    'button--warning': color() === 'warning',
+    button: true
+  }"
+  [disabled]="disabled()"
+  [type]="type()"
+>
+  <ng-content />
+</button>
