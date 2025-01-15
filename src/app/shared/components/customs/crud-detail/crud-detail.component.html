@@ -1,6 +1,6 @@
 <div class="crud-detail">
   <div class="crud-detail__content">
-    @for (item of detailConfig().detailItems; track $index) {
+    @for (item of config.detailItems; track $index) {
       <div class="crud-detail__item">
         <label for="id" class="crud-detail__label">
           {{ item.label }}
@@ -12,6 +12,6 @@
       </div>
     }
 
-    <app-button (click)="detailConfig().onGoBack()" variant="outlined"> Volver </app-button>
+    <app-button (click)="config.onGoBack()" variant="outlined">Volver</app-button>
   </div>
 </div>

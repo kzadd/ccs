@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input, OnInit } from '@angular/core'
+import { ChangeDetectionStrategy, Component, inject, Input, OnInit } from '@angular/core'
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms'
 import { NgIcon, provideIcons } from '@ng-icons/core'
 import { heroCheckSolid as saveIcon } from '@ng-icons/heroicons/solid'
@@ -25,32 +25,23 @@ import { ButtonComponent, InputComponent } from '../../basics'
 export class CrudFormComponent<D, M extends string> implements OnInit {
   private _formBuilder = inject(NonNullableFormBuilder)
 
-  formConfig = input.required<FormConfig<D, M>>()
-  initialValues = input.required<Partial<D>>()
-  mode = input.required<M>()
+  @Input({ required: true }) config!: FormConfig<D, M>
+  @Input({ required: true }) initialValues!: Partial<D>
+  @Input({ required: true }) mode!: M
 
-  activeFormConfig!: FormConfigItem<D>
+  activeConfig!: FormConfigItem<D>
   form!: FormGroup
 
   ngOnInit(): void {
-    const formConfig = this.formConfig()
-    const mode = this.mode()
-
-    if (!formConfig) {
-      throw new Error(`Configuration for mode "${mode}" not found.`)
-    }
-
-    this.activeFormConfig = formConfig[mode]
+    this.activeConfig = this.config[this.mode]
     this.initializeForm()
   }
 
   private initializeForm(): void {
-    const initialValues = this.initialValues()
-
-    const controls = this.activeFormConfig.fields.reduce(
+    const controls = this.activeConfig.fields.reduce(
       (acc: Record<Extract<keyof D, string>, FormControl<unknown>>, field) => {
         acc[field.name as Extract<keyof D, string>] = this._formBuilder.control(
-          { disabled: field.disabled ?? false, value: initialValues[field.name] ?? '' },
+          { disabled: field.disabled ?? false, value: this.initialValues[field.name] ?? '' },
           field.validations ?? []
         )
 
@@ -67,18 +58,16 @@ export class CrudFormComponent<D, M extends string> implements OnInit {
 
     return control ? getFormControlErrorMessage(control) : ''
   }
-
   handleCancel(): void {
-    this.activeFormConfig.onCancel?.()
+    this.activeConfig?.onCancel?.()
     this.form.reset()
   }
 
   handleSubmit(): void {
     if (this.form.valid) {
-      this.activeFormConfig.onAction()
+      this.activeConfig.onAction()
       this.form.reset()
     } else {
-      console.log('Formulario inválido')
       this.form.markAllAsTouched()
     }
   }

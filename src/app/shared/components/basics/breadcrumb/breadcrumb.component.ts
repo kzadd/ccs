@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core'
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
 import { RouterLink } from '@angular/router'
 import { NgIcon, provideIcons } from '@ng-icons/core'
 import { heroHomeSolid as homeIcon } from '@ng-icons/heroicons/solid'
@@ -17,5 +17,5 @@ import { BreadcrumbItem } from '@app/shared/types/components/basics/breadcrumb.t
   viewProviders: [provideIcons({ homeIcon })]
 })
 export class BreadcrumbComponent {
-  breadcrumbItems = input<BreadcrumbItem[]>([])
+  @Input() breadcrumbItems: BreadcrumbItem[] = []
 }

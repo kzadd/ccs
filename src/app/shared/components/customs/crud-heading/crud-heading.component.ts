@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, OnInit } from '@angular/core'
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core'
 import { NgIcon } from '@ng-icons/core'
 
 import { BreadcrumbComponent, ButtonComponent } from '@app/shared/components/basics'
@@ -18,19 +18,12 @@ import {
   templateUrl: './crud-heading.component.html'
 })
 export class CrudHeadingComponent<T extends string> implements OnInit {
-  headingConfig = input.required<HeadingConfig<T>>()
-  mode = input.required<T>()
+  @Input({ required: true }) config!: HeadingConfig<T>
+  @Input({ required: true }) mode!: T
 
-  activeHeadingConfig!: HeadingConfigItem
+  activeConfig!: HeadingConfigItem
 
   ngOnInit(): void {
-    const headingConfig = this.headingConfig()
-    const mode = this.mode()
-
-    if (!headingConfig) {
-      throw new Error(`Configuration for mode "${mode}" not found.`)
-    }
-
-    this.activeHeadingConfig = headingConfig[mode]
+    this.activeConfig = this.config[this.mode]
   }
 }

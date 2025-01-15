@@ -1,10 +1,9 @@
 import {
   Directive,
   inject,
-  input,
+  Input,
   OnDestroy,
   OnInit,
-  signal,
   TemplateRef,
   ViewContainerRef
 } from '@angular/core'
@@ -24,37 +23,27 @@ export class ResponsiveDirective implements OnDestroy, OnInit {
   private _templateRef = inject(TemplateRef)
   private _viewContainer = inject(ViewContainerRef)
 
-  breakpoint = input.required<ResponsiveBreakpoint>({ alias: 'appResponsive' })
+  @Input({ alias: 'appResponsive', required: true }) breakpoint!: ResponsiveBreakpoint
 
-  private _breakpoints = signal<BreakpointValues>({
-    '2xl': 1536,
-    lg: 992,
-    md: 768,
-    sm: 576,
-    xl: 1200
-  })
-
-  private _hasView = signal<boolean>(false)
-  private _resizeSubscription = signal<Subscription | null>(null)
+  private _breakpoints: BreakpointValues = { '2xl': 1536, lg: 992, md: 768, sm: 576, xl: 1200 }
+  private _hasView = false
+  private _resizeSubscription!: Subscription
 
   ngOnDestroy(): void {
-    this._resizeSubscription()?.unsubscribe()
+    this._resizeSubscription.unsubscribe()
   }
 
   ngOnInit(): void {
-    this._resizeSubscription.set(
-      fromEvent(window, 'resize')
-        .pipe(debounceTime(100), startWith(null))
-        .subscribe(() => this._updateView())
-    )
+    this._resizeSubscription = fromEvent(window, 'resize')
+      .pipe(debounceTime(100), startWith(null))
+      .subscribe(() => this._updateView())
   }
 
   private _evaluateBreakpoint(condition: ResponsiveBreakpoint, width: number): boolean {
-    const _breakpoints = this._breakpoints()
-    const currentBreakpoint = _breakpoints[condition as ScreenSize]
+    const currentBreakpoint = this._breakpoints[condition as ScreenSize]
 
     if (currentBreakpoint !== undefined) {
-      const breakpoints = Object.values(_breakpoints)
+      const breakpoints = Object.values(this._breakpoints)
       const nextBreakpoint = breakpoints.find(value => value > currentBreakpoint) ?? Infinity
 
       return width >= currentBreakpoint && width < nextBreakpoint
@@ -63,36 +52,33 @@ export class ResponsiveDirective implements OnDestroy, OnInit {
     if (condition.startsWith('down:')) {
       const breakpoint = condition.split(':')[1] as ScreenSize
 
-      return width <= _breakpoints[breakpoint]
+      return width <= this._breakpoints[breakpoint]
     }
 
     if (condition.startsWith('up:')) {
       const breakpoint = condition.split(':')[1] as ScreenSize
 
-      return width >= _breakpoints[breakpoint]
+      return width >= this._breakpoints[breakpoint]
     }
 
     return false
   }
 
   private _updateView(): void {
-    const breakpoint = this.breakpoint()
     const width = window.innerWidth
-    const shouldShow = this._evaluateBreakpoint(breakpoint, width)
+    const shouldShow = this._evaluateBreakpoint(this.breakpoint, width)
 
     this._updateViewContainer(shouldShow)
   }
 
   private _updateViewContainer(shouldShow: boolean): void {
-    const hasView = this._hasView()
-
-    if (!shouldShow && hasView) {
-      this._hasView.set(false)
+    if (!shouldShow && this._hasView) {
+      this._hasView = false
       this._viewContainer.clear()
     }
 
-    if (!hasView && shouldShow) {
-      this._hasView.set(true)
+    if (!this._hasView && shouldShow) {
+      this._hasView = true
       this._viewContainer.createEmbeddedView(this._templateRef)
     }
   }

@@ -1,10 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   inject,
-  input,
+  Input,
   OnInit,
-  output,
+  Output,
   signal
 } from '@angular/core'
 import { NavigationEnd, Router, RouterLink } from '@angular/router'
@@ -31,15 +32,15 @@ import { NavigationItem, NavigationRoute } from '@app/shared/types/navigation.ty
 export class SidebarContainerComponent implements OnInit {
   private _router = inject(Router)
 
-  closeSidebar = output<void>()
-  sidebarCollapsed = input<boolean>(false)
+  @Input() sidebarCollapsed = false
+  @Output() closeSidebar = new EventEmitter<void>()
 
   currentUrl = signal<string>(this._router.url)
 
-  navigationItems = signal<NavigationItem[]>([
+  navigationItems: NavigationItem[] = [
     { icon: homeIcon, label: 'Panel', namePath: 'dashboard', path: this._buildPath('dashboard') },
     { icon: countryIcon, label: 'Pais', namePath: 'country', path: this._buildPath('country') }
-  ])
+  ]
 
   ngOnInit(): void {
     this._router.events.subscribe(event => {

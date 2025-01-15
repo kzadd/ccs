@@ -17,18 +17,17 @@
 
       <form [formGroup]="form" class="login-auth__form">
         <app-input
-          [error]="getErrorMessage('email')"
-          formControlName="email"
-          id="email"
+          [error]="getErrorMessage('usarname')"
+          formControlName="usarname"
+          id="usarname"
           label="Usuario"
-          name="email"
+          name="usarname"
           placeholder="Ingrese su usuario"
-          type="email"
         />
 
         <app-input
           [error]="getErrorMessage('password')"
-          [type]="showPassword() ? 'text' : 'password'"
+          [type]="showPassword ? 'text' : 'password'"
           formControlName="password"
           id="password"
           label="Contraseña"
@@ -37,12 +36,12 @@
         >
           <ng-icon
             (click)="handleTogglePasswordVisibility()"
-            [name]="showPassword() ? 'showPasswordIcon' : 'hidePasswordIcon'"
+            [name]="showPassword ? 'showPasswordIcon' : 'hidePasswordIcon'"
             suffix
           />
         </app-input>
 
-        @if (errorMessage()) {
+        @if (errorMessage) {
           <div class="login-auth__error">
             <ng-icon name="errorIcon" />
 

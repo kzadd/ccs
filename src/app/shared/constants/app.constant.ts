@@ -1,7 +1,7 @@
 import { ROUTE_PATHS } from './routes.constant'
 
 export const ACCESS_TOKEN_KEY = 'access_token'
-export const DEFAULT_CREDENTIALS = { email: 'admin@admin.com', password: '123456' }
+export const DEFAULT_CREDENTIALS = { password: '123456', usarname: 'kzadd' }
 
 export const FULL_ROUTE_PATHS = {
   auth: {

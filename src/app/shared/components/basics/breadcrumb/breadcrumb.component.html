@@ -1,6 +1,6 @@
 <nav class="breadcrumb">
   <ul class="breadcrumb__list">
-    @for (breadcrumbItem of breadcrumbItems(); track $index; let first = $first; let last = $last) {
+    @for (breadcrumbItem of breadcrumbItems; track $index; let first = $first; let last = $last) {
       <li [class.breadcrumb__item--active]="last" class="breadcrumb__item">
         @if (!last) {
           <a [routerLink]="breadcrumbItem.path" class="breadcrumb__link">

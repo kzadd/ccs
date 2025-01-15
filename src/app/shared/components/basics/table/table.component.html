@@ -1,17 +1,16 @@
-@let orderIcon =
-  sortOrder() === 'asc' ? 'ascIcon' : sortOrder() === 'desc' ? 'descIcon' : 'noneIcon';
+@let orderIcon = sortOrder === 'asc' ? 'ascIcon' : sortOrder === 'desc' ? 'descIcon' : 'noneIcon';
 
 <div class="table">
   <div class="table__container">
     <table class="table__content">
       <thead class="table__header">
         <tr class="table__header-row">
-          @for (column of columns(); track $index) {
+          @for (column of columns; track $index) {
             <th
               [class]="{
                 'table__header-cell': true,
                 'table__header-cell--sortable': column.sortable,
-                'table__header-cell--sorted': sortBy() === column.key && sortOrder() !== 'none'
+                'table__header-cell--sorted': sortBy === column.key && sortOrder !== 'none'
               }"
               [style.min-width]="column.width ?? 'auto'"
               [style.width]="column.width ?? 'auto'"
@@ -20,7 +19,7 @@
                 {{ column.label }}
 
                 @if (column.sortable) {
-                  @if (sortBy() === column.key) {
+                  @if (sortBy === column.key) {
                     <ng-icon [name]="orderIcon" size="1rem" />
                   } @else {
                     <ng-icon name="noneIcon" size="1rem" />
@@ -30,7 +29,7 @@
             </th>
           }
 
-          @if (actions().length) {
+          @if (actions.length) {
             <th [style.min-width]="'320px'" [style.width]="'320px'" class="table__header-cell">
               <div class="table__header-cell-content">Acciones</div>
             </th>
@@ -39,9 +38,9 @@
       </thead>
 
       <tbody class="table__body">
-        @for (row of data(); track $index) {
+        @for (row of data; track $index) {
           <tr class="table__body-row">
-            @for (column of columns(); track $index) {
+            @for (column of columns; track $index) {
               <td
                 [style.min-width]="column.width ?? 'auto'"
                 [style.width]="column.width ?? 'auto'"
@@ -53,10 +52,10 @@
               </td>
             }
 
-            @if (actions().length) {
+            @if (actions.length) {
               <td [style.min-width]="'320px'" [style.width]="'320px'" class="table__body-cell">
                 <div class="table__body-cell-actions">
-                  @for (action of actions(); track action.label) {
+                  @for (action of actions; track action.label) {
                     <span
                       (click)="action.onAction($any(row))"
                       [class]="{
@@ -82,10 +81,7 @@
           </tr>
         } @empty {
           <tr class="table__body-row--empty">
-            <td
-              [attr.colspan]="columns().length + (actions().length ? 1 : 0)"
-              class="table__body-cell"
-            >
+            <td [attr.colspan]="columns.length + (actions.length ? 1 : 0)" class="table__body-cell">
               No hay registros disponibles.
             </td>
           </tr>

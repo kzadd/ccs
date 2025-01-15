@@ -1,7 +1,7 @@
 <div class="input">
-  @if (label()) {
-    <label [for]="id()" class="input__label">
-      {{ label() }}
+  @if (label) {
+    <label [for]="id" class="input__label">
+      {{ label }}
     </label>
   }
 
@@ -10,16 +10,16 @@
       (blur)="onTouched()"
       (input)="onInputChange($event)"
       [class]="{
-        'input__field--disabled': disabled(),
-        'input__field--error': error(),
+        'input__field--disabled': disabled,
+        'input__field--error': error,
         input__field: true
       }"
-      [disabled]="disabled()"
-      [id]="id()"
-      [name]="name()"
-      [placeholder]="placeholder()"
-      [type]="type()"
-      [value]="value()"
+      [disabled]="disabled"
+      [id]="id"
+      [name]="name"
+      [placeholder]="placeholder"
+      [type]="type"
+      [value]="value"
     />
 
     <span class="input__suffix">
@@ -27,9 +27,9 @@
     </span>
   </div>
 
-  @if (error()) {
+  @if (error) {
     <div class="input__error">
-      {{ error() }}
+      {{ error }}
     </div>
   }
 </div>

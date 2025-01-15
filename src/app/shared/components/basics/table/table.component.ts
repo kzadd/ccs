@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, model, signal } from '@angular/core'
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
 import { NgIcon, provideIcons } from '@ng-icons/core'
 import {
   heroArrowDownCircleSolid as descIcon,
@@ -27,15 +27,13 @@ import {
   viewProviders: [provideIcons({ ascIcon, descIcon, noneIcon })]
 })
 export class TableComponent<T> {
-  private _originalData = signal<TableData<T>[]>([])
+  @Input() actions: TableAction<T>[] = []
+  @Input() columns: TableColumn<T>[] = []
+  @Input() data: TableData<T>[] = []
 
-  actions = input<TableAction<T>[]>([])
-  columns = input<TableColumn<T>[]>([])
-
-  data = model<TableData<T>[]>([])
-
-  sortBy = signal<TableDataKey<T> | null>(null)
-  sortOrder = signal<TableSortOrder>('none')
+  private _originalData: TableData<T>[] = []
+  sortBy: TableDataKey<T> | null = null
+  sortOrder: TableSortOrder = 'none'
 
   private _compareValues(a: TableDataValue<T>, b: TableDataValue<T>): number {
     if (a === b) return 0
@@ -49,23 +47,19 @@ export class TableComponent<T> {
   }
 
   private _getSortedData(key: TableDataKey<T>): TableData<T>[] {
-    const data = this.data()
-    const sortOrder = this.sortOrder()
-
-    return [...data].sort((currentRow, nextRow) => {
+    return [...this.data].sort((currentRow, nextRow) => {
       const comparison = this._compareValues(currentRow[key], nextRow[key])
 
-      return sortOrder === 'desc' ? -comparison : comparison
+      return this.sortOrder === 'desc' ? -comparison : comparison
     })
   }
 
   private _updateSortOrder(key: TableDataKey<T>): void {
-    const sortBy = this.sortBy()
-    const isSameColumn = sortBy === key
+    const isSameColumn = this.sortBy === key
 
     if (!isSameColumn) {
-      this.sortBy.set(key)
-      this.sortOrder.set('asc')
+      this.sortBy = key
+      this.sortOrder = 'asc'
 
       return
     }
@@ -76,25 +70,19 @@ export class TableComponent<T> {
       none: 'asc'
     }
 
-    const sortOrder = this.sortOrder()
-
-    this.sortOrder.set(directions[sortOrder])
+    this.sortOrder = directions[this.sortOrder]
   }
 
   sortData(column: TableColumn<T>): void {
     if (!column.sortable) return
 
-    const data = this.data()
-    const originalData = this._originalData()
-
-    if (!originalData.length) {
-      this._originalData.set([...data])
+    if (!this._originalData.length) {
+      this._originalData = [...this.data]
     }
 
     this._updateSortOrder(column.key)
 
-    const sortOrder = this.sortOrder()
-
-    this.data.set(sortOrder === 'none' ? [...originalData] : this._getSortedData(column.key))
+    this.data =
+      this.sortOrder === 'none' ? [...this._originalData] : this._getSortedData(column.key)
   }
 }

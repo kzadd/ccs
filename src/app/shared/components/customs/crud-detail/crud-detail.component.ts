@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core'
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
 
 import { DetailConfig } from '@app/shared/types/components/customs/crud-detail.types'
 import { ButtonComponent } from '../../basics'
@@ -14,5 +14,5 @@ import { ButtonComponent } from '../../basics'
   templateUrl: './crud-detail.component.html'
 })
 export class CrudDetailComponent<T> {
-  detailConfig = input.required<DetailConfig<T>>()
+  @Input({ required: true }) config!: DetailConfig<T>
 }

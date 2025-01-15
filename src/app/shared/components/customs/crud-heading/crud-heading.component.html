@@ -1,14 +1,14 @@
 <div class="crud-heading">
-  <app-breadcrumb [breadcrumbItems]="activeHeadingConfig.breadcrumbs" />
+  <app-breadcrumb [breadcrumbItems]="activeConfig.breadcrumbs" />
 
   <div class="crud-heading__content">
     <h1 class="crud-heading__title">
-      {{ activeHeadingConfig.title }}
+      {{ activeConfig.title }}
     </h1>
 
-    @if (activeHeadingConfig.actions?.length) {
+    @if (activeConfig.actions?.length) {
       <div class="crud-heading__actions">
-        @for (action of activeHeadingConfig.actions; track $index) {
+        @for (action of activeConfig.actions; track $index) {
           <app-button
             (click)="action.onAction()"
             [color]="action.color ?? 'primary'"

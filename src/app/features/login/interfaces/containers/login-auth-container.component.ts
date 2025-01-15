@@ -3,7 +3,6 @@ import {
   Component,
   inject,
   OnInit,
-  signal,
   ViewEncapsulation
 } from '@angular/core'
 import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms'
@@ -21,7 +20,7 @@ import { ACCESS_TOKEN_KEY, DEFAULT_CREDENTIALS } from '@app/shared/constants/app
 import { ROUTE_PATHS } from '@app/shared/constants/routes.constant'
 import { putCookie } from '@app/shared/utils/cookie.utils'
 import { getFormControlErrorMessage } from '@app/shared/utils/form-error.utils'
-import { isEmail, isRequired } from '@app/shared/utils/validators.utils'
+import { isRequired } from '@app/shared/utils/validators.utils'
 import { LoginAuthForm, LoginAuthKey } from '../../domain/login.entity'
 
 /**
@@ -40,16 +39,16 @@ export class LoginAuthContainerComponent implements OnInit {
   private _formBuilder = inject(NonNullableFormBuilder)
   private _router = inject(Router)
 
-  errorMessage = signal<boolean>(false)
-  showPassword = signal<boolean>(false)
+  errorMessage = false
+  showPassword = false
 
   form: FormGroup<LoginAuthForm> = this._formBuilder.group({
-    email: [DEFAULT_CREDENTIALS.email, [isRequired, isEmail]],
-    password: [DEFAULT_CREDENTIALS.password, [isRequired]]
+    password: [DEFAULT_CREDENTIALS.password, [isRequired]],
+    usarname: [DEFAULT_CREDENTIALS.usarname, [isRequired]]
   })
 
   ngOnInit(): void {
-    this.form.valueChanges.subscribe(() => this.errorMessage.set(false))
+    this.form.valueChanges.subscribe(() => (this.errorMessage = false))
   }
 
   getErrorMessage(controlName: LoginAuthKey): string {
@@ -59,22 +58,22 @@ export class LoginAuthContainerComponent implements OnInit {
   }
 
   handleSignIn(): void {
-    const { email, password } = this.form.getRawValue()
+    const { password, usarname } = this.form.getRawValue()
 
     const isDefaultCredentials =
-      email === DEFAULT_CREDENTIALS.email && password === DEFAULT_CREDENTIALS.password
+      password === DEFAULT_CREDENTIALS.password && usarname === DEFAULT_CREDENTIALS.usarname
 
     if (isDefaultCredentials && this.form.valid) {
       putCookie(ACCESS_TOKEN_KEY, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9')
       this._router.navigate([ROUTE_PATHS.dashboard])
       this.form.reset()
     } else {
-      this.errorMessage.set(true)
+      this.errorMessage = true
       this.form.markAllAsTouched()
     }
   }
 
   handleTogglePasswordVisibility() {
-    this.showPassword.update(prev => !prev)
+    this.showPassword = !this.showPassword
   }
 }

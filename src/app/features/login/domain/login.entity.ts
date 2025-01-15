@@ -1,8 +1,8 @@
 import { FormControlsMap } from '@app/shared/types/form.types'
 
 export interface LoginAuth {
-  email: string
   password: string
+  usarname: string
 }
 
 export type LoginAuthForm = FormControlsMap<LoginAuth>

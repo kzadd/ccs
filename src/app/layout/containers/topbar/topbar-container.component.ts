@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject, output, signal } from '@angular/core'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  Output
+} from '@angular/core'
 import { Router, RouterLink } from '@angular/router'
 import { NgIcon, provideIcons } from '@ng-icons/core'
 import {
@@ -30,10 +37,10 @@ import { deleteCookie } from '@app/shared/utils/cookie.utils'
 export class TopbarContainerComponent {
   private _router = inject(Router)
 
-  toggleSidebar = output<void>()
+  @Input() dropdownOpen = false
+  @Output() toggleSidebar = new EventEmitter<void>()
 
-  dropdownOpen = signal<boolean>(false)
-  profileName = signal<string>(DEFAULT_CREDENTIALS.email)
+  profileName: string = DEFAULT_CREDENTIALS.usarname
 
   handleLogout(): void {
     deleteCookie(ACCESS_TOKEN_KEY)
@@ -41,7 +48,7 @@ export class TopbarContainerComponent {
   }
 
   handleProfileHover(isHovered: boolean): void {
-    this.dropdownOpen.set(isHovered)
+    this.dropdownOpen = isHovered
   }
 
   handleToggleSidebar(): void {

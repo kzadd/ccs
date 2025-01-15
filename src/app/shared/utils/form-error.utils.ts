@@ -9,9 +9,9 @@ export const getFormControlErrorMessage = (formControl: AbstractControl): string
 
   if (hasErrors && isInvalidState) {
     const [firstErrorKey] = Object.keys(formControl.errors as ValidationErrors)
-    const errorMessage = formControl.errors?.[firstErrorKey]
+    const errorMessage = formControl.errors?.[firstErrorKey] as string
 
-    return errorMessage || ''
+    return errorMessage ?? ''
   }
 
   return ''

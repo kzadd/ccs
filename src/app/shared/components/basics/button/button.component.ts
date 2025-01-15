@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core'
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
 
 import {
   ButtonColor,
@@ -17,9 +17,9 @@ import {
   templateUrl: './button.component.html'
 })
 export class ButtonComponent {
-  color = input<ButtonColor>('primary')
-  disabled = input<boolean>(false)
-  fullWidth = input<boolean>(false)
-  type = input<ButtonType>('button')
-  variant = input<ButtonVariant>('contained')
+  @Input() color: ButtonColor = 'primary'
+  @Input() disabled = false
+  @Input() fullWidth = false
+  @Input() type: ButtonType = 'button'
+  @Input() variant: ButtonVariant = 'contained'
 }
